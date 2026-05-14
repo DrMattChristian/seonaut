@@ -8,7 +8,7 @@
 # =============================================
 VIEW_DETAILS: Ver detalles
 DOWNLOAD: Descargar
-CRAWLED_ON: "Rastreado el %1%"      # %1% will be replaced with a date
+CRAWLED_ON: "Rastreado el %1% a las %2%"  # %1% will be replaced with a date, %2% with the time (HH:MM)
 CRAWLED: rastreado
 PREV: ← anterior                    # Pagination: link to previous page
 NEXT: siguiente →                   # Pagination: link to next page
