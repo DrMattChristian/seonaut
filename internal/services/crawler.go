@@ -69,10 +69,6 @@ func NewCrawlerService(r CrawlerServiceRepository, s CrawlerServicesContainer) *
 // Finally the previous crawl's data is removed and the crawl is returned.
 func (s *CrawlerService) StartCrawler(p models.Project, b models.BasicAuth) error {
 	previousCrawl := s.repository.GetLastCrawl(&p)
-	crawl, err := s.repository.SaveCrawl(p)
-	if err != nil {
-		return err
-	}
 
 	u, err := url.Parse(p.URL)
 	if err != nil {
@@ -83,8 +79,16 @@ func (s *CrawlerService) StartCrawler(p models.Project, b models.BasicAuth) erro
 		u.Path = "/"
 	}
 
+	// Acquire the in-memory lock before persisting to the DB so that a failed
+	// lock check cannot leave an orphaned crawl record with a NULL end timestamp.
 	c, err := s.addCrawler(u, &p, &b)
 	if err != nil {
+		return err
+	}
+
+	crawl, err := s.repository.SaveCrawl(p)
+	if err != nil {
+		s.removeCrawler(&p)
 		return err
 	}
 
