@@ -8,7 +8,7 @@
 # =============================================
 VIEW_DETAILS: View Details
 DOWNLOAD: Download
-CRAWLED_ON: "Crawled on %1%"  # %1% will be replaced with a date
+CRAWLED_ON: "Crawled on %1% at %2%"  # %1% will be replaced with a date, %2% with the time (HH:MM)
 CRAWLED: crawled
 PREV: ← prev                  # Pagination: link to previous page
 NEXT: next →                  # Pagination: link to next page
