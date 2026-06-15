@@ -2,6 +2,7 @@ package main
 
 import (
 	"flag"
+	_ "time/tzdata" // embed tz database so TZ env var works in Alpine without tzdata package
 
 	"github.com/stjudewashere/seonaut/internal/routes"
 	"github.com/stjudewashere/seonaut/internal/services"
