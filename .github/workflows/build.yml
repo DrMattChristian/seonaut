@@ -82,4 +82,4 @@ jobs:
           build-args: |
             VERSION=${{ github.ref_name }}
             COMMIT_HASH=${{ github.sha }}
-            BUILD_DATE=${{ github.event.head_commit.timestamp }}
+            BUILD_DATE=${{ github.event.head_commit.timestamp || github.run_started_at }}
