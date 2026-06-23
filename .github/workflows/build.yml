@@ -2,6 +2,11 @@ name: Build and Push Docker Image
 
 on:
   workflow_dispatch:
+    inputs:
+      manual_tag:
+        description: "Optional tag to publish for this manual run (for example: manual-20260623)"
+        required: false
+        type: string
   push:
     branches: [main, develop]
   pull_request:
@@ -68,6 +73,10 @@ jobs:
             type=ref,event=pr
             type=sha,prefix={{branch}}-,format=short,enable={{is_default_branch}}
             type=raw,value=latest,enable={{is_default_branch}}
+            type=raw,value=manual-${{ github.run_number }}-${{ github.run_attempt }},enable=${{ github.event_name == 'workflow_dispatch' }}
+            type=raw,value=${{ github.event.inputs.manual_tag }},enable=${{ github.event_name == 'workflow_dispatch' && github.event.inputs.manual_tag != '' }}
+          annotations: |
+            org.opencontainers.image.description=SEOnaut is an open-source SEO auditing tool for scanning websites and generating SEO reports.
 
       - name: Build and optionally push Docker image
         uses: docker/build-push-action@f9f3042f7e2789586610d6e8b85c8f03e5195baf
@@ -77,6 +86,7 @@ jobs:
           push: ${{ github.event_name != 'pull_request' && !github.event.repository.fork }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+          annotations: ${{ steps.meta.outputs.annotations }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
           build-args: |

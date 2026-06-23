@@ -29,6 +29,8 @@ RUN --mount=type=cache,target=/root/.npm \
 
 FROM alpine:latest AS production
 
+LABEL org.opencontainers.image.description="SEOnaut is an open-source SEO auditing tool for scanning websites and generating SEO reports."
+
 COPY --from=builder /app/seonaut /app/seonaut
 COPY --from=front /home/node/app /app/
 
