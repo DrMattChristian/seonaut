@@ -12,7 +12,7 @@ RUN --mount=type=cache,target=/go/pkg/mod \
     CGO_ENABLED=0 GOOS=linux \
     go build -o seonaut cmd/server/main.go
 
-FROM node:22-alpine3.22 AS front
+FROM node:24-alpine3.22 AS front
 
 WORKDIR /home/node
 COPY ./web ./app/web
